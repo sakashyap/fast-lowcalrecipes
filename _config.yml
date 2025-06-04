@@ -1,0 +1,5 @@
+remote_theme: pages-themes/merlot@v0.2.0
+plugins:
+- jekyll-remote-theme
+title: Identifying Cook Time based on Protein and Calorie Content
+description: An attempt to predict cook time by developing models that are able to find associations between high protein, low calories and cook time.
