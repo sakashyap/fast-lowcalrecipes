@@ -22,7 +22,8 @@ The dataset that we use here contains 234,427 rows (woah!), and 26 columns, out 
 - sugar
 - sodium
 - saturated fats
-- carbs|
+- carbs
+|
 | n_ingredientsme | number of ingredients |
 | ratings | rating given to each recipe |
 
