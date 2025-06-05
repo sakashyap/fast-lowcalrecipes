@@ -1,5 +1,5 @@
 remote_theme: pages-themes/merlot@v0.2.0
 plugins:
 - jekyll-remote-theme
-title: Project for DSC80 at UC San Diego
-description: Analyzing the relationship between cook time and food composition
+title: Analyzing the Relationship between Cook Time and Food Composition  
+description: Project for DSC80 at UC San Diego
