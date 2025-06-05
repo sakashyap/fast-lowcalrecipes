@@ -15,15 +15,7 @@ The dataset that we use here contains 234,427 rows (woah!), and 26 columns, out 
 | name | recipe name |
 | minutes | Minutes to prepare recipe |
 | contributor_id | User ID who submitted this recipe |
-| nutrition | nutritional information which we used to derive the following columns from (as integers):
-- protein
-- calories
-- total fat
-- sugar
-- sodium
-- saturated fats
-- carbs
-|
+| nutrition | nutritional information which we used to derive the following columns from (as integers): protein, calories, total fat, sugar, sodium, saturated fats,carbs|
 | n_ingredientsme | number of ingredients |
 | ratings | rating given to each recipe |
 
