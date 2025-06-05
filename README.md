@@ -20,6 +20,8 @@ The dataset that we use here contains 234,427 rows (woah!), and 26 columns, out 
 | ratings | rating given to each recipe |
 
 
+
+
 Since this dataset had information from two different datasets, we first pooled all of our information through merging the two dataframes we were given. 
 The first dataset, Recipes, had the following information: 
 
