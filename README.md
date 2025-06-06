@@ -72,9 +72,8 @@ For our univariate analysis, the variable we focused on was the `ingredients` co
 
 <iframe
   src="assets/univariateplot.html"
-  width="720"
-  height="540"
-  frameborder="1"
+  style="width: 100%; max-width: 720px; height: 440px; border: none; display: block; margin: 0 auto; padding: 0;"
+  scrolling="no"
 ></iframe>
 
 ## Bivariate Analysis
