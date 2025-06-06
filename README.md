@@ -71,7 +71,6 @@ Once we had our overall merged dataframe, we cleaned it through the following st
 
 For our univariate analysis, the variable we focused on was the `ingredients` column, which lists all the ingredients required to make a particular recipe. First, we began by filtering the recipes dataset to create a subset containing only the top 25% of recipes based on calorie count. We then cleaned the `ingredients` column by removing brackets, quotes, and commas, splitting the springs into individual ingredients and exploding them into separate rows for accurate counting. This allowed us to calculate the frequency of each ingredient in high-calorie recipes and visualize the 30 most common ones in the final pie chart as seen below:
 
-
 <iframe
   src="assets/univariateplot.html"
   width="720"
@@ -83,6 +82,13 @@ For our univariate analysis, the variable we focused on was the `ingredients` co
 ## Bivariate Analysis
 
 The scatter plot we created for this bivariate analysis explores the relationship between recipe calories and cooking time, with both axes log-transformed for better visual interpretation. While there is significant spread, the slight upward slope of the trendline suggests a weak positive correlation - higher-calorie recipes tend to take slightly longer to prepare.
+
+<iframe
+  src="assets/bivariateplot.html"
+  width="720"
+  height="540"
+  frameborder="1"
+></iframe>
 
 
 
