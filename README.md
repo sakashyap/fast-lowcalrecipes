@@ -11,6 +11,7 @@ Throughout college, we have come to understand the importance of quick and easy 
 
 The dataset that we use here contains 234,427 rows (woah!), and 26 columns, out of which we focus on the following columns (explanations based on the recipes and ratings dataset):
 
+
 | Columns     | Description |
 | ----------- | ----------- |
 | name        | Recipe name |
@@ -21,8 +22,28 @@ The dataset that we use here contains 234,427 rows (woah!), and 26 columns, out 
 | ratings | Rating given to each recipe |
 
 
-
-
 Since this dataset had information from two different datasets, we first pooled all of our information through merging the two dataframes we were given. 
+
 The first dataset, Recipes, had the following information: 
+
+
+
+
+
+
+
+
+
+
+<iframe
+  src="assets/univariateplot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+
+
+
 
