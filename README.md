@@ -69,7 +69,7 @@ Once we had our overall merged dataframe, we cleaned it through the following st
 
 ## Univariate Analysis
 
-For our univariate analysis, the variable we focused on was the ‘ingredients’ column, which lists all the ingredients required to make a particular recipe. First, we began by filtering the recipes dataset to create a subset containing only the top 25% of recipes based on calorie count. We then cleaned the ‘ingredients’ column by removing brackets, quotes, and commas, splitting the springs into individual ingredients and exploding them into separate rows for accurate counting. This allowed us to calculate the frequency of each ingredient in high-calorie recipes and visualize the 30 most common ones in the final pie chart as seen below:
+For our univariate analysis, the variable we focused on was the `ingredients` column, which lists all the ingredients required to make a particular recipe. First, we began by filtering the recipes dataset to create a subset containing only the top 25% of recipes based on calorie count. We then cleaned the `ingredients` column by removing brackets, quotes, and commas, splitting the springs into individual ingredients and exploding them into separate rows for accurate counting. This allowed us to calculate the frequency of each ingredient in high-calorie recipes and visualize the 30 most common ones in the final pie chart as seen below:
 
 
 <iframe
