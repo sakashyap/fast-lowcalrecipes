@@ -78,17 +78,50 @@ For our univariate analysis, the variable we focused on was the `ingredients` co
   frameborder="1"
 ></iframe>
 
-
 ## Bivariate Analysis
 
 The scatter plot we created for this bivariate analysis explores the relationship between recipe calories and cooking time, with both axes log-transformed for better visual interpretation. While there is significant spread, the slight upward slope of the trendline suggests a weak positive correlation - higher-calorie recipes tend to take slightly longer to prepare.
 
 <iframe
   src="assets/bivariateplot.html"
+  style="display: block; margin: 0 auto; width: 90%; max-width: 720px; height: 540px; border: 1px solid #ccc;"
+></iframe>
+
+## Interesting Aggregates
+
+For this plot, we began by standard-normalizing all our relevant nutrient columns and then grouped them by rating (1-5). We plotted this as a bar chart to visualise the overall nutrient composition of recipes in each rating group. 
+
+<iframe
+  src="assets/aggplot.html"
   width="720"
   height="540"
   frameborder="1"
 ></iframe>
+
+# Assessment of Missingness 
+
+The data generating process resulted in missingness in the rating, review and description columns. We believe that while rating can indeed be missing at random (say people have not tried the recipe yet), review cannot be missing at random, since it is likely that if a user did not enter a rating, they did not enter a review either. Hence, we think that review can be dependent on the rating. It is additionally dependent on the nature of the recipe and user. If there was nothing that stood out about utilizing the recipe, a user may not feel comfortable publicly expressing their opinion on the website.
+
+Before conducting further analysis, we wanted to understand if this missingness in the description column is due to the values themselves, or due to another column that it could be related to, or MCAR (missing at random). Upon looking deeper, we found a pattern that recipes only from certain contributors were missing a description. 
+
+To test if these missing values were truly linked to certain contributors, we performed a permutation test where we created a new column, `has_description`, that continued True if a description was present in the row, and False if it was a NaN value. There were no empty strings in the description column. On shuffling the `has_description` column, and using TVD as our test statistic to device is there was a significant difference in the proportion of samples with and without description across contributors, we found a p value of 0.0. This is statistically significant on both a 0.05 and 0.01 level, and we can reject the null that the contributor_id is not linked to the missingness of description. The alternative hypothesis is more likely to be, ie, that the `description` missingness is linked to ‘contributor_id’. Since we are not using this information further in our project, we did not choose to impute the values.
+
+The following plot **ADD DESC HERE? MAYBE?**
+<iframe
+  src="assets/missplot.html"
+  width="720"
+  height="540"
+  frameborder="1"
+></iframe>
+
+# Hypothesis Testing
+
+We are interested in the preparation time and we would like to know the different factors that influence it. To identify if the nutrient content would influence the cook time, we focused first on the calorie content in each recipe. We established a null hypothesis that there is no difference in the preparation time between high and low calorie recipes. Based on studies we found online such as [this](https://www.dshs.wa.gov/sites/default/files/ALTSA/stakeholders/documents/duals/toolkit/Reading%20Food%20Nutrition%20Labels.pdf), we declared any recipe that contains more than 400 calories as a high calorie recipe. We recognize that some recipes can be for food items made in bulk, and in future versions of our project, we plan to address this. Our alternative hypothesis is that the cook time is dependent on the calorie content in the food. To simulate our null, we use permutation testing to shuffle the time taken to cook a recipe. Using a test statistic as the mean difference in the cook time for high and low calorie food, we found a p-value of 0.0. At a significance level of both 0.01 and 0.05, we are able to reject a null hypothesis, and it is likely that the cooking time is dependent on the calorie content. Since we are interested in predicting cook time based on the components of food, it is helpful to use one such component to identify if there is likely a correlation between the two.
+
+
+
+
+
 
 
 
