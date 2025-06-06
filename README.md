@@ -11,14 +11,14 @@ Throughout college, we have come to understand the importance of quick and easy 
 
 The dataset that we use here contains 234,427 rows (woah!), and 26 columns, out of which we focus on the following columns (explanations based on the recipes and ratings dataset):
 
-| Columns        | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| name           | recipe name                                                                 |
-| minutes        | Minutes to prepare recipe                                                   |
-| contributor_id | User ID who submitted this recipe                                           |
-| nutrition      | Nutritional information which we used to derive the following columns from (as integers): protein, calories, total fat, sugar, sodium, saturated fats, carbs |
-| n_ingredients  | number of ingredients                                                       |
-| ratings        | rating given to each recipe                                                 |
+| Columns | Description |
+| ----------- | ----------- |
+| name | recipe name |
+| minutes | Minutes to prepare recipe |
+| contributor_id | User ID who submitted this recipe |
+| nutrition | nutritional information which we used to derive the following columns from (as integers): protein, calories, total fat, sugar, sodium, saturated fats,carbs|
+| n_ingredients | number of ingredients |
+| ratings | rating given to each recipe |
 
 
 
