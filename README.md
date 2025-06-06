@@ -111,7 +111,6 @@ Before conducting further analysis, we wanted to understand if this missingness 
 
 To test if these missing values were truly linked to certain contributors, we performed a permutation test where we created a new column, `has_description`, that continued True if a description was present in the row, and False if it was a NaN value. There were no empty strings in the description column. On shuffling the `has_description` column, and using TVD as our test statistic to device is there was a significant difference in the proportion of samples with and without description across contributors, we found a p value of 0.0. This is statistically significant on both a 0.05 and 0.01 level, and we can reject the null that the contributor_id is not linked to the missingness of description. The alternative hypothesis is more likely to be, ie, that the `description` missingness is linked to ‘contributor_id’. Since we are not using this information further in our project, we did not choose to impute the values.
 
-The following plot **ADD DESC HERE? MAYBE?**
 <iframe
   src="assets/missplot.html"
   width="720"
