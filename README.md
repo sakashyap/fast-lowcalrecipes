@@ -51,7 +51,6 @@ The second dataset, ***Ratings***, had the following information:
 | `review`      | Review text             |
 
 
-
 # Data Cleaning and Exploratory Data Analysis
 
 We first performed a left merge to include all of the Ratings information into recipes by aligning the recipe ID number. Next, in the merge dataset, we filled all the recipes without a rating with np.nan instead of leaving it as a 0. We performed this since we did not think that it is fair to assume recipes without ratings as bad recipes (ie, rating 0 that doesn’t exist on the 1-5 scale), and so replaced it with nan values. We then wanted to have an idea of the overall average rating for each recipe, and so computed recipe wise ratings, by grouping it by the ID. We ensured to add this to our dataset as a new column (‘avg_rating’) so that this could be used for downstream analysis. 
@@ -117,6 +116,44 @@ The following plot **ADD DESC HERE? MAYBE?**
 # Hypothesis Testing
 
 We are interested in the preparation time and we would like to know the different factors that influence it. To identify if the nutrient content would influence the cook time, we focused first on the calorie content in each recipe. We established a null hypothesis that there is no difference in the preparation time between high and low calorie recipes. Based on studies we found online such as [this](https://www.dshs.wa.gov/sites/default/files/ALTSA/stakeholders/documents/duals/toolkit/Reading%20Food%20Nutrition%20Labels.pdf), we declared any recipe that contains more than 400 calories as a high calorie recipe. We recognize that some recipes can be for food items made in bulk, and in future versions of our project, we plan to address this. Our alternative hypothesis is that the cook time is dependent on the calorie content in the food. To simulate our null, we use permutation testing to shuffle the time taken to cook a recipe. Using a test statistic as the mean difference in the cook time for high and low calorie food, we found a p-value of 0.0. At a significance level of both 0.01 and 0.05, we are able to reject a null hypothesis, and it is likely that the cooking time is dependent on the calorie content. Since we are interested in predicting cook time based on the components of food, it is helpful to use one such component to identify if there is likely a correlation between the two.
+
+
+# Framing a Prediction Problem
+
+Here, we predict the normalized time it takes to prepare a recipe based on the nutrition contents of the food. We use a linear regression, and further a lasso regression model to predict the minutes taken based on the nutrition of the recipe. Here, we know the nutrient composition information from our dataframe, and we utilize these values by transforming them to find the best predictor of the preparation time. Our response variable is `minutes` on a log scale, since standardization was necessary to eliminate skewness from outliers. We chose to measure our accuracy using root mean square error, since this is a standard linear regression accuracy measure that we believe reflects the error in our data well. 
+
+
+# Baseline Model
+
+We build a linear regression model utilizing two of the features that we believe college students care about the most—calories and protein. Both of our quantitative variables needed some preprocessing. First, we encoded protein as a polynomial feature, by testing polynomials from 1 through 9, and found 4 to perform the best. We utilized RMSE to identify the best performing feature. Based on the graph showing our train and test error, we see that there is very little difference between the two, which allowed us to pick 4, since that had the lowest error in both. 
+
+<iframe
+  src="assets/baseline1.html"
+  width="720"
+  height="540"
+  frameborder="1"
+></iframe>
+
+Next, based on our literature survey, we found that 400 calories is considered the inflection point between low and high calories, and hence binarized the calories column with a threshold at 400. Using these two features, we predicted the minutes to prepare the recipe on a log scale. We find that this model performs moderately well, since the root mean square error is low at close to 1 unit. However, since this is on a log scale, this is still a high error, and we think that more optimization is necessary to increase the accuracy. Additionally, this current model only fits the data on a basic scale without fine tuning the parameters, and we think it is important to consider a model that can evaluate the importance of different features while utilizing it. 
+
+<iframe
+  src="assets/baseline2.html"
+  width="720"
+  height="540"
+  frameborder="1"
+></iframe>
+
+As shown in the graph above, there are many fast recipes with low cook times that our baseline model is able to predict. Based on the log preparation times predicted, one can pick a recipe that falls in the lower sections or higher ones to pick a slow or fast recipe. 
+
+
+# Final Model
+
+In our final model, we chose to add other nutrient information, since these are important components of the recipe, and contribute to its cooking method. We also added the number of ingredients to one of our features to test if having information about the number of ingredients contributes to the preparation time. We see that proteins and calories still perform the best, but its performance is improved by utilizing a more improved regression model: Lasso Regression.
+
+We utilize Lasso Regression to ensure that it selects the features that are best for the prediction with lowest RMSE, by dropping the co-effecients that do not improve the model significantly. To ensure that we use the best hyperparameter, we iteratively tested 6 alpha values , and found the lowest value across all our testing features to be for alpha = 1 value. Across all our features, we also found that our feature that predicts based on transformed calories and proteins performs the best with lowest RMSE value. 
+
+
+
 
 
 
