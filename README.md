@@ -135,7 +135,6 @@ We build a linear regression model utilizing two of the features that we believe
   height="540"
   frameborder="1"
 ></iframe>
-
 Next, based on our literature survey, we found that 400 calories is considered the inflection point between low and high calories, and hence binarized the calories column with a threshold at 400. Using these two features, we predicted the minutes to prepare the recipe on a log scale. We find that this model performs moderately well, since the root mean square error is low at close to 1 unit. However, since this is on a log scale, this is still a high error, and we think that more optimization is necessary to increase the accuracy. Additionally, this current model only fits the data on a basic scale without fine tuning the parameters, and we think it is important to consider a model that can evaluate the importance of different features while utilizing it. 
 
 <iframe
@@ -144,7 +143,6 @@ Next, based on our literature survey, we found that 400 calories is considered t
   height="540"
   frameborder="1"
 ></iframe>
-
 As shown in the graph above, there are many fast recipes with low cook times that our baseline model is able to predict. Based on the log preparation times predicted, one can pick a recipe that falls in the lower sections or higher ones to pick a slow or fast recipe. 
 
 
