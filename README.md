@@ -27,7 +27,7 @@ Since this dataset had information from two different datasets, we first pooled 
 The first dataset, ***Recipes***, had the following information: 
 
 
- Column         | Description                                                                                                                 |
+|Column          | Description                                                                                                                 |
 |----------------|-----------------------------------------------------------------------------------------------------------------------------|
 | `name`         | Recipe name                                                                                                                 |
 | `id`           | Recipe ID                                                                                                                   |
@@ -76,7 +76,7 @@ For our univariate analysis, the variable we focused on was the `ingredients` co
   src="assets/univariateplot.html"
   width="720"
   height="540"
-  frameborder="0"
+  frameborder="1"
 ></iframe>
 
 
