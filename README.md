@@ -1,13 +1,13 @@
 # Fast Nutritious Recipes for College Students!
 Final Project for DSC80 at UC San Diego
 
-Project Title: Analyzing the relationship between cook time and food composition
+Project Title: Analyzing the relationship between preparation time and food composition
 
 # Introduction
 
 **Welcome to Fast and Nutritious recipes, from college students for college students!**
 
-Throughout college, we have come to understand the importance of quick and easy meals that help us stay energetic and nourished, catered to body & mind-specific needs. This motivated us to think about how we can use this dataset, Recipes and Ratings that contains critical information such as nutrition, cook time, number of steps and more for a variety of recipes. Through our project and website, we have tried to find correlations and patterns between different nutritional components and cook time for various recipes, to try to predict the cook time based on composition of nutrients (mainly protein and calories) in each meal. 
+Throughout college, we have come to understand the importance of quick and easy meals that help us stay energetic and nourished, catered to body & mind-specific needs. This motivated us to think about how we can use this dataset, Recipes and Ratings that contains critical information such as nutrition, preparation time, number of steps and more for a variety of recipes. Through our project and website, we have tried to find correlations and patterns between different nutritional components and preparation time for various recipes, to try to predict the preparation time based on composition of nutrients (mainly protein and calories) in each meal. 
 
 The dataset that we use here contains 234,427 rows (woah!), and 26 columns, out of which we focus on the following columns (explanations based on the recipes and ratings dataset):
 
@@ -68,17 +68,18 @@ Once we had our overall merged dataframe, we cleaned it through the following st
 
 ## Univariate Analysis
 
-For our univariate analysis, the variable we focused on was the `ingredients` column, which lists all the ingredients required to make a particular recipe. First, we began by filtering the recipes dataset to create a subset containing only the top 25% of recipes based on calorie count. We then cleaned the `ingredients` column by removing brackets, quotes, and commas, splitting the springs into individual ingredients and exploding them into separate rows for accurate counting. This allowed us to calculate the frequency of each ingredient in high-calorie recipes and visualize the 30 most common ones in the final pie chart as seen below:
+For our univariate analysis, the variable we focused on was the `ingredients` column, which lists all the ingredients required to make a particular recipe. First, we began by filtering the recipes dataset to create a subset containing only the top 25% of recipes based on calorie count. We then cleaned the `ingredients` column by removing brackets, quotes, and commas, splitting the strings into individual ingredients and exploding them into separate rows for accurate counting. This allowed us to calculate the frequency of each ingredient in high-calorie recipes and visualize the 30 most common ones in the final pie chart as seen below:
 
 <iframe
   src="assets/univariateplot.html"
-  style="width: 100%; max-width: 720px; height: 440px; border: none; display: block; margin: 0 auto; padding: 0;"
-  scrolling="no"
+  width="720"
+  height="540"
+  frameborder="1"
 ></iframe>
 
 ## Bivariate Analysis
 
-The scatter plot we created for this bivariate analysis explores the relationship between recipe calories and cooking time, with both axes log-transformed for better visual interpretation. While there is significant spread, the slight upward slope of the trendline suggests a weak positive correlation - higher-calorie recipes tend to take slightly longer to prepare.
+The scatter plot we created for this bivariate analysis explores the relationship between recipe calories and preparation time, with both axes log-transformed for better visual interpretation. While there is significant spread, the slight upward slope of the trendline suggests a weak positive correlation - higher-calorie recipes tend to take slightly longer to prepare.
 
 <iframe
   src="assets/bivariateplot.html"
@@ -89,7 +90,11 @@ The scatter plot we created for this bivariate analysis explores the relationshi
 
 ## Interesting Aggregates
 
-For this plot, we began by standard-normalizing all our relevant nutrient columns and then grouped them by rating (1-5). We plotted this as a bar chart to visualise the overall nutrient composition of recipes in each rating group. 
+To better understand how nutritional composition varies across recipe ratings, we first applied min-max normalization to all relevant nutrient columns, ensuring comparability across different scales. We then grouped the data by rating (1–5) and plotted the average nutrient values for each group.
+
+While most nutrient levels remain relatively consistent across ratings, a subtle but notable trend emerges with calories: higher-rated recipes tend to have slightly lower normalized calorie values. This suggests that users may prefer recipes that are lighter in calories, potentially indicating a preference for healthier options.
+
+
 
 <iframe
   src="assets/aggplot.html"
@@ -116,7 +121,7 @@ The following plot **ADD DESC HERE? MAYBE?**
 
 # Hypothesis Testing
 
-We are interested in the preparation time and we would like to know the different factors that influence it. To identify if the nutrient content would influence the cook time, we focused first on the calorie content in each recipe. We established a null hypothesis that there is no difference in the preparation time between high and low calorie recipes. Based on studies we found online such as [this](https://www.dshs.wa.gov/sites/default/files/ALTSA/stakeholders/documents/duals/toolkit/Reading%20Food%20Nutrition%20Labels.pdf), we declared any recipe that contains more than 400 calories as a high calorie recipe. We recognize that some recipes can be for food items made in bulk, and in future versions of our project, we plan to address this. Our alternative hypothesis is that the cook time is dependent on the calorie content in the food. To simulate our null, we use permutation testing to shuffle the time taken to cook a recipe. Using a test statistic as the mean difference in the cook time for high and low calorie food, we found a p-value of 0.0. At a significance level of both 0.01 and 0.05, we are able to reject a null hypothesis, and it is likely that the cooking time is dependent on the calorie content. Since we are interested in predicting cook time based on the components of food, it is helpful to use one such component to identify if there is likely a correlation between the two.
+We are interested in the preparation time and we would like to know the different factors that influence it. To identify if the nutrient content would influence the preparation time, we focused first on the calorie content in each recipe. We established a null hypothesis that there is no difference in the preparation time between high and low calorie recipes. Based on studies we found online such as [this](https://www.dshs.wa.gov/sites/default/files/ALTSA/stakeholders/documents/duals/toolkit/Reading%20Food%20Nutrition%20Labels.pdf), we declared any recipe that contains more than 400 calories as a high calorie recipe. We recognize that some recipes can be for food items made in bulk, and in future versions of our project, we plan to address this. Our alternative hypothesis is that the preparation time is dependent on the calorie content in the food. To simulate our null, we use permutation testing to shuffle the time taken to prepare a recipe. Using a test statistic as the mean difference in the preparation time for high and low calorie food, we found a p-value of 0.0. At a significance level of both 0.01 and 0.05, we are able to reject a null hypothesis, and it is likely that the preparation time is dependent on the calorie content. Since we are interested in predicting preparation time based on the components of food, it is helpful to use one such component to identify if there is likely a correlation between the two.
 
 
 # Framing a Prediction Problem
@@ -142,14 +147,21 @@ Next, based on our literature survey, we found that 400 calories is considered t
   height="540"
   frameborder="1"
 ></iframe>
-As shown in the graph above, there are many fast recipes with low cook times that our baseline model is able to predict. Based on the log preparation times predicted, one can pick a recipe that falls in the lower sections or higher ones to pick a slow or fast recipe. 
+As shown in the graph above, there are many fast recipes with low preparation times that our baseline model is able to predict. Based on the log preparation times predicted, one can pick a recipe that falls in the lower sections or higher ones to pick a slow or fast recipe. The RMSE for our baseline model was approximately 1.02 for both training and testing erros. Since there was very minute difference between the two, we can say that our model generalizes well to unseen data. 
 
 
 # Final Model
 
-In our final model, we chose to add other nutrient information, since these are important components of the recipe, and contribute to its cooking method. We also added the number of ingredients to one of our features to test if having information about the number of ingredients contributes to the preparation time. We see that proteins and calories still perform the best, but its performance is improved by utilizing a more improved regression model: Lasso Regression.
+In our final model, we chose to add other nutrient information, since these are important components of the recipe, and contribute to its preparation method. We also added the number of ingredients to one of our features to test if having information about the number of ingredients contributes to the preparation time. We see that proteins and calories still perform the best, but its performance is improved by utilizing a more improved regression model: Lasso Regression.
 
-We utilize Lasso Regression to ensure that it selects the features that are best for the prediction with lowest RMSE, by dropping the co-effecients that do not improve the model significantly. To ensure that we use the best hyperparameter, we iteratively tested 6 alpha values , and found the lowest value across all our testing features to be for alpha = 1 value. Across all our features, we also found that our feature that predicts based on transformed calories and proteins performs the best with lowest RMSE value. 
+We utilize Lasso Regression to ensure that it selects the features that are best for the prediction with lowest RMSE, by dropping the coefficients that do not improve the model significantly. To ensure that we use the best hyperparameter, we iteratively tested 6 alpha values, and found the lowest value across all our testing features to be for alpha = 1 value. Across all our features, we also found that our feature that predicts based on transformed calories performs the best with lowest RMSE value of [0.993,0.982]. The RMSE for transformed calories and proteins was also the same, suggesting that coefficient for proteins is probably being restricted. Similar to our baseline model, the difference between the RMSE values for the training and testing error is very minute, suggesting that our final model generalizes well to unseen data. 
+
+We think that this model performed better as compared to the baseline since the addition of a hyperparameter changed the weightage for each parameter, and prioritized accuracy. We see that as compared to our baseline model, our final has a lower RMSE by 0.027 for the training error and 0.038 for the testing error, for our best performing feature (alpha level 1). 
+
+
+# Fairness Analysis
+
+To analyze the fairness of our model, we selected to look at the prediction differences in the number of steps. On identifying the mean and median to be about 10 steps, we created two groups so that Group X contains those recipes with ‘low’ steps (<10) and Group Y contains those recipes with ‘high’ steps (>10). Our null hypothesis is that there is no difference in the performance of the model between the low and high recipes, and we simulate this through a permutation test. We shuffle our `high_or_low` column that contains True if it is a low step recipe and False if it is a high step recipe, and calculate the absolute difference between the RMSE. On generating this 500 times, we compare it to the true difference between the RMSEs for high and low step recipes. We find a p value of 0.0, which shows that we can reject our null in favour of our alternative hypothesis that the model does not predict with the same fairness for high and low step recipes. We conclude that this bias may arise from low step recipes that have outliers in the number of minutes taken, since we did not filter for recipes such as baking bread, which have fewer steps, but a large amount of prep time. Additionally, we must consider that the way steps are split up vary from person to person, and some people may compress many steps into a single one whereas some may break every step down for a rather simple recipe. In future iterations of our model, we plan to filter for different types of recipes and build a model that can intake a parameter to specify this information.
 
 
 
