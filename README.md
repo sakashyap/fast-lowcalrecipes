@@ -52,7 +52,7 @@ The second dataset, ***Ratings***, had the following information:
 
 
 
-## Data Cleaning and Exploratory Data Analysis
+# Data Cleaning and Exploratory Data Analysis
 
 We first performed a left merge to include all of the Ratings information into recipes by aligning the recipe ID number. Next, in the merge dataset, we filled all the recipes without a rating with np.nan instead of leaving it as a 0. We performed this since we did not think that it is fair to assume recipes without ratings as bad recipes (ie, rating 0 that doesn’t exist on the 1-5 scale), and so replaced it with nan values. We then wanted to have an idea of the overall average rating for each recipe, and so computed recipe wise ratings, by grouping it by the ID. We ensured to add this to our dataset as a new column (‘avg_rating’) so that this could be used for downstream analysis. 
 
@@ -67,17 +67,22 @@ Once we had our overall merged dataframe, we cleaned it through the following st
 - We then found outlier recipes that were irrelevant and not depicting food items, and hence dropped them.
 
 
-### Univariate Analysis
+## Univariate Analysis
 
 For our univariate analysis, the variable we focused on was the ‘ingredients’ column, which lists all the ingredients required to make a particular recipe. First, we began by filtering the recipes dataset to create a subset containing only the top 25% of recipes based on calorie count. We then cleaned the ‘ingredients’ column by removing brackets, quotes, and commas, splitting the springs into individual ingredients and exploding them into separate rows for accurate counting. This allowed us to calculate the frequency of each ingredient in high-calorie recipes and visualize the 30 most common ones in the final pie chart as seen below:
 
 
 <iframe
   src="assets/univariateplot.html"
-  width="800"
-  height="600"
+  width="720"
+  height="540"
   frameborder="0"
 ></iframe>
+
+
+## Bivariate Analysis
+
+The scatter plot we created for this bivariate analysis explores the relationship between recipe calories and cooking time, with both axes log-transformed for better visual interpretation. While there is significant spread, the slight upward slope of the trendline suggests a weak positive correlation - higher-calorie recipes tend to take slightly longer to prepare.
 
 
 
