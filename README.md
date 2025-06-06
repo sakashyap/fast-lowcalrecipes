@@ -83,7 +83,9 @@ The scatter plot we created for this bivariate analysis explores the relationshi
 
 <iframe
   src="assets/bivariateplot.html"
-  style="display: block; margin: 0 auto; width: 90%; max-width: 720px; height: 540px; border: 1px solid #ccc;"
+  width="720"
+  height="540"
+  frameborder="1"
 ></iframe>
 
 ## Interesting Aggregates
