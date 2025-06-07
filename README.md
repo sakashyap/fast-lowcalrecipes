@@ -65,6 +65,15 @@ Once we had our overall merged dataframe, we cleaned it through the following st
   - We also converted all of these values to `float` from `str` so that we can perform mathematical operations on them.
 - We then found outlier recipes that were irrelevant and not depicting food items, and hence dropped them.
 
+At this stage, our cleaned ***Recipes*** dataframe looked like this:
+| name                                 |   calories |   protein |   total fat |   minutes |
+|:-------------------------------------|-----------:|----------:|------------:|----------:|
+| 1 brownies in the world    best ever |      138.4 |         3 |          10 |        40 |
+| 1 in canada chocolate chip cookies   |      595.1 |        13 |          46 |        45 |
+| 412 broccoli casserole               |      194.8 |        22 |          20 |        40 |
+| 412 broccoli casserole               |      194.8 |        22 |          20 |        40 |
+| 412 broccoli casserole               |      194.8 |        22 |          20 |        40 |
+
 
 ## Univariate Analysis
 
@@ -107,9 +116,9 @@ While most nutrient levels remain relatively consistent across ratings, a subtle
 
 The data generating process resulted in missingness in the rating, review and description columns. We believe that while rating can indeed be missing at random (say people have not tried the recipe yet), review cannot be missing at random, since it is likely that if a user did not enter a rating, they did not enter a review either. Hence, we think that review can be dependent on the rating. It is additionally dependent on the nature of the recipe and user. If there was nothing that stood out about utilizing the recipe, a user may not feel comfortable publicly expressing their opinion on the website.
 
-Before conducting further analysis, we wanted to understand if this missingness in the description column is due to the values themselves, or due to another column that it could be related to, or MCAR (missing at random). Upon looking deeper, we found a pattern that recipes only from certain contributors were missing a description. 
+To test if these missing values in the rating column were truly random, or dependent on any one particular quantitative column, we tested the `minutes`, `n_ingredients`, `n_steps`, `protein` and `calories` columns. Our null hypothesis was that there is no relationship between the missingness of rating and the values in the column of interest. Our alternative is that the missingness of rating is due to the values in these columns of interest. We ran a permutation test by shuffling the presence or absence of ratings, and grouping recipes based on whether they have ratings or not. We looked at the mean difference in the column of interest between those with and without ratings. By comparing these with our observed statistic which did not undergo any shuffling, we got p values of 0.0 for all of the quantitative columns. At both a significance level of 0.01 and 0.05, we are able to reject the null hypothesis. This shows us that the missingness in ratings could indeed depend on the values in all of these columns.
 
-To test if these missing values in the rating column were truly random, or dependent on any one particular quantitative column, we tested the minutes, number of ingredients, number of steps, protein and calories columns. Our null hypothesis was that there is no relationship between the missingness of rating and the values in the column of interest. Our alternative is that the missingness of rating is due to the values in these columns of interest. We ran a permutation test by shuffling the presence or absence of ratings, and grouping recipes based on whether they have ratings or not. We looked at the mean difference in the column of interest between those with and without ratings. By comparing these with our observed statistic which did not undergo any shuffling, we got p values of 0.0 for all of the quantitative columns. At both a significance level of 0.01 and 0.05, we are able to reject the null hypothesis. This shows us that the missingness in ratings could indeed depend on the values in all of these columns.
+Here is a sample graph for the distribution of test statistic for number of steps, where the red line shows the obersved test statistic. 
 
 
 <iframe
@@ -126,12 +135,13 @@ We are interested in the preparation time and we would like to know the differen
 
 # Framing a Prediction Problem
 
-Here, we predict the normalized time it takes to prepare a recipe based on the nutrition contents of the food. We use a linear regression, and further a lasso regression model to predict the minutes taken based on the nutrition of the recipe. Here, we know the nutrient composition information from our dataframe, and we utilize these values by transforming them to find the best predictor of the preparation time. Our response variable is `minutes` on a log scale, since standardization was necessary to eliminate skewness from outliers. We chose to measure our accuracy using root mean square error, since this is a standard linear regression accuracy measure that we believe reflects the error in our data well. 
+Here, we predict the normalized time it takes to prepare a recipe based on the nutrition contents of the food. We use a linear regression model, and further a lasso regression model to predict the minutes taken based on the nutrition of the recipe. Here, we know the nutrient composition information from our dataframe, and we utilize these values by transforming them to find the best predictor of the preparation time. Our response variable is ‘minutes’ on a log scale, since standardization was necessary to eliminate skewness from outliers. We chose to measure our accuracy using root mean square error, since this is a standard linear regression accuracy measure that we believe reflects the error in our data well. We decided to use RMSE over R squared since we think that it is better to minimize error rather than overfit the data and measure how well it reflects a trend. 
+
 
 
 # Baseline Model
 
-We build a linear regression model utilizing two of the features that we believe college students care about the most—calories and protein. Both of our quantitative variables needed some preprocessing. First, we encoded protein as a polynomial feature, by testing polynomials from 1 through 9, and found 4 to perform the best. We utilized RMSE to identify the best performing feature. Based on the graph showing our train and test error, we see that there is very little difference between the two, which allowed us to pick 4, since that had the lowest error in both. 
+We build a linear regression model utilizing two of the features that we believe college students care about the most—calories and protein. Both of our quantitative variables needed some preprocessing. First, we encoded protein as a polynomial feature, by testing polynomials from 1 through 9, and found 4 to perform the best. We utilized RMSE to identify the best performing feature. Based on the graph showing our train and test error, we see that there is very little difference between the two up until polynomial degree 4, after which the test error dramatically increases. Due to this, we picked a degree of 4. 
 
 <iframe
   src="assets/baseline1.html"
@@ -147,7 +157,7 @@ Next, based on our literature survey, we found that 400 calories is considered t
   height="540"
   frameborder="1"
 ></iframe>
-As shown in the graph above, there are many fast recipes with low preparation times that our baseline model is able to predict. Based on the log preparation times predicted, one can pick a recipe that falls in the lower sections or higher ones to pick a slow or fast recipe. The RMSE for our baseline model was approximately 1.02 for both training and testing erros. Since there was very minute difference between the two, we can say that our model generalizes well to unseen data. 
+As shown in the graph above, there are many fast recipes with low preparation times that our baseline model is able to predict. Based on the log preparation times predicted, one can pick a recipe that falls in the lower sections or higher ones to pick a slow or fast recipe. The RMSE for our baseline model was approximately 1.02 for both training and testing errors. Since there was very minute difference between the two, we can say that our model generalizes well to unseen data. 
 
 
 # Final Model
@@ -161,7 +171,7 @@ We think that this model performed better as compared to the baseline since the 
 
 # Fairness Analysis
 
-To analyze the fairness of our model, we selected to look at the prediction differences in the number of steps. On identifying the mean and median to be about 10 steps, we created two groups so that Group X contains those recipes with ‘low’ steps (<10) and Group Y contains those recipes with ‘high’ steps (>10). Our null hypothesis is that there is no difference in the performance of the model between the low and high recipes, and we simulate this through a permutation test. We shuffle our `high_or_low` column that contains True if it is a low step recipe and False if it is a high step recipe, and calculate the absolute difference between the RMSE. On generating this 500 times, we compare it to the true difference between the RMSEs for high and low step recipes. We find a p value of 0.0, which shows that we can reject our null in favour of our alternative hypothesis that the model does not predict with the same fairness for high and low step recipes. We conclude that this bias may arise from low step recipes that have outliers in the number of minutes taken, since we did not filter for recipes such as baking bread, which have fewer steps, but a large amount of prep time. Additionally, we must consider that the way steps are split up vary from person to person, and some people may compress many steps into a single one whereas some may break every step down for a rather simple recipe. In future iterations of our model, we plan to filter for different types of recipes and build a model that can intake a parameter to specify this information.
+To analyze the fairness of our model, we selected to look at the prediction differences in the number of steps. On identifying the mean and median to be about 10 steps, we created two groups so that Group X contains those recipes with ‘low’ steps (<10) and Group Y contains those recipes with ‘high’ steps (>=10). Our null hypothesis is that there is no difference in the performance of the model between the low and high recipes, and we simulate this through a permutation test. We shuffle our `high_or_low` column that contains True if it is a low step recipe and False if it is a high step recipe, and calculate the absolute difference between the RMSE. On generating this 500 times, we compare it to the true difference between the RMSEs for high and low step recipes. We find a p value of 0.0, which shows that we can reject our null in favour of our alternative hypothesis that the model does not predict with the same fairness for high and low step recipes. We conclude that this bias may arise from low step recipes that have outliers in the number of minutes taken, since we did not filter for recipes such as baking bread, which have fewer steps, but a large amount of prep time. Additionally, we must consider that the way steps are split up vary from person to person, and some people may compress many steps into a single one whereas some may break every step down for a rather simple recipe. In future iterations of our model, we plan to filter for different types of recipes and build a model that can intake a parameter to specify this information.
 
 
 
