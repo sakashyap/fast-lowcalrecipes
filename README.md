@@ -66,6 +66,7 @@ Once we had our overall merged dataframe, we cleaned it through the following st
 - We then found outlier recipes that were irrelevant and not depicting food items, and hence dropped them.
 
 At this stage, our cleaned ***Recipes*** dataframe looked like this:
+
 | name                                 |   calories |   protein |   total fat |   minutes |
 |:-------------------------------------|-----------:|----------:|------------:|----------:|
 | 1 brownies in the world    best ever |      138.4 |         3 |          10 |        40 |
